@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MySqlDBUtils implements DBUtils {
 
@@ -16,9 +18,23 @@ public class MySqlDBUtils implements DBUtils {
              ResultSet rs = statement.executeQuery("SELECT * FROM customer");
         ) {
 
+            List<Customer> customers = new ArrayList<>();
+
             while (rs.next()) {
-                System.out.println(rs.getString("email"));
+                Customer c = new Customer();
+                c.setId(rs.getInt("id"));
+                c.setName(rs.getString("name"));
+                c.setAddress1(rs.getString("address1"));
+                c.setAddress2(rs.getString("address2"));
+                c.setAddress3(rs.getString("address3"));
+                c.setAddress4(rs.getString("address4"));
+                c.setPhone(rs.getString("phone"));
+                c.setEmail(rs.getString("email"));
+                c.setCountry(rs.getString("country"));
+                customers.add(c);
             }
+
+            customers.stream().forEach(System.out::println);
 
         } catch (SQLException e) {
             e.printStackTrace();
